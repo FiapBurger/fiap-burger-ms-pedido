@@ -48,7 +48,6 @@ public class PedidoControllerTest {
     @Test
     public void testCriarPedido() {
         CriarPedidoRequest request = new CriarPedidoRequest();
-        // Defina o comportamento esperado do mock
         PedidoResponse response = new PedidoResponse();
         when(criarPedidoInputPort.criarPedido(request)).thenReturn(response);
 
@@ -60,7 +59,6 @@ public class PedidoControllerTest {
     @Test
     public void testAvaliarPedido() {
         AvaliarPedidoRequest request = new AvaliarPedidoRequest();
-        // Defina o comportamento esperado do mock
         doNothing().when(avaliarPedidoInputPort).avaliar(request);
 
         ResponseEntity<String> result = pedidoController.avaliarPedido(request);
@@ -71,7 +69,6 @@ public class PedidoControllerTest {
     @Test
     public void testDeletar() {
         DeletarPedidoRequest request = new DeletarPedidoRequest();
-        // Defina o comportamento esperado do mock
         doNothing().when(deletarPedidoInputPort).deletar(request);
 
         ResponseEntity<String> result = pedidoController.deletar(request);
@@ -83,7 +80,6 @@ public class PedidoControllerTest {
     public void testBuscar() {
         String id = "1";
         PedidoResponse response = new PedidoResponse();
-        // Defina o comportamento esperado do mock
         when(buscarPedidoInputPort.buscaPedido(id)).thenReturn(response);
 
         ResponseEntity<PedidoResponse> result = pedidoController.buscar(id);
@@ -94,7 +90,6 @@ public class PedidoControllerTest {
     @Test
     public void testListaPedidos() {
         List<PedidoResponse> response = new ArrayList<>();
-        // Defina o comportamento esperado do mock
         when(listarPedidosInputPort.listaPedidos()).thenReturn(response);
 
         ResponseEntity<List<PedidoResponse>> result = pedidoController.listaPedidos();
@@ -106,7 +101,6 @@ public class PedidoControllerTest {
     public void testListaPedidosPorStatus() {
         String idStatus = "1";
         List<PedidoResponse> response = new ArrayList<>();
-        // Defina o comportamento esperado do mock
         when(listarPedidosInputPort.listaPedidosPorStatus(idStatus)).thenReturn(response);
 
         ResponseEntity<List<PedidoResponse>> result = pedidoController.listaPedidosPorStatus(idStatus);
@@ -117,7 +111,6 @@ public class PedidoControllerTest {
     @Test
     public void testEfetuarPagamento() {
         EfetuarPagamentoRequest request = new EfetuarPagamentoRequest();
-        // Defina o comportamento esperado do mock
 
         ResponseEntity<PedidoResponse> result = pedidoController.efetuarPagamento(request);
 

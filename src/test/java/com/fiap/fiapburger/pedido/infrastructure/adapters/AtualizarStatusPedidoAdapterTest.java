@@ -37,7 +37,7 @@ class AtualizarStatusPedidoAdapterTest {
         pedido.setIdPagamento("0");
 
         PedidoEntity pedidoEntity = new PedidoEntity();
-        pedidoEntity.setIdPedido("1");
+        pedidoEntity.setId("1");
         pedidoEntity.setIdStatus("5");
         pedidoEntity.setIdPagamento("0");
 

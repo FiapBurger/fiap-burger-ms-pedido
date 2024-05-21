@@ -6,16 +6,12 @@ import com.fiap.fiapburger.pedido.infrastructure.api.requests.*;
 import com.fiap.fiapburger.pedido.infrastructure.api.responses.PedidoResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
 @RequestMapping("/pedido")
-@ComponentScan("com.fiap.fiapburger.pedido.application.ports.in.AtualizarStatusPedidoInputPort")
 public class PedidoController {
 
     private final CriarPedidoInputPort criarPedidoInputPort;
@@ -86,9 +82,7 @@ public class PedidoController {
         pedidoResponse.setId(efetuarPagamentoRequest.getIdPedido());
         pedidoResponse.setIdPagamento("3");
         pedidoResponse.setIdStatus("2");
-        pedidoResponse.setSenha(85L);
         pedidoResponse.setDetalhes("Pagamento efetuado com sucesso!");
-        pedidoResponse.setValorTotal(BigDecimal.valueOf(22));
 
         return ResponseEntity.ok(pedidoResponse);
     }

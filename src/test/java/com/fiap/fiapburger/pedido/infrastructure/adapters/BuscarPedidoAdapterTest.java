@@ -42,35 +42,29 @@ class BuscarPedidoAdapterTest {
 
     @Test
     void buscar_DeveRetornarPedidoResponseCorretoQuandoPedidoExistir() {
-        // Arrange
         Pedido pedido = new Pedido();
         pedido.setId("1");
 
         PedidoEntity pedidoEntity = new PedidoEntity();
-        pedidoEntity.setIdPedido("1");
+        pedidoEntity.setId("1");
 
         PedidoResponse pedidoResponseEsperado = new PedidoResponse();
-        // Configure o pedidoResponseEsperado conforme necessário
 
         when(pedidoRepository.findById("1")).thenReturn(Optional.of(pedidoEntity));
         when(pedidoMapper.toPedidoResponse(any())).thenReturn(pedidoResponseEsperado);
 
-        // Act
         PedidoResponse resultado = adapter.buscar(pedido);
 
-        // Assert
         assertEquals(pedidoResponseEsperado, resultado);
     }
 
     @Test
     void buscar_DeveLancarExcecaoQuandoPedidoNaoExistir() {
-        // Arrange
         Pedido pedido = new Pedido();
         pedido.setId("1");
 
         when(pedidoRepository.findById("1")).thenReturn(Optional.empty());
 
-        // Act + Assert
         assertThrows(PedidoNaoEncontradoException.class, () -> adapter.buscar(pedido));
     }
 }

@@ -29,72 +29,63 @@ public class ListarPedidosAdapterTest {
     @Test
     @DisplayName("Deve retornar lista de pedidos corretamente")
     void listaPedidos_DeveRetornarListaDePedidosCorretamente() {
-        // Mock de pedidos
         PedidoEntity pedido1 = new PedidoEntity();
-        pedido1.setIdPedido("1");
+        pedido1.setId("1");
         pedido1.setIdStatus("EM_ANDAMENTO");
 
         PedidoEntity pedido2 = new PedidoEntity();
-        pedido2.setIdPedido("2");
-        pedido2.setIdStatus(null); // idStatus nulo
+        pedido2.setId("2");
+        pedido2.setIdStatus(null);
 
         List<PedidoEntity> pedidos = Arrays.asList(pedido1, pedido2);
 
-        // Mock do comportamento do repository
+
         when(pedidoRepository.findAll()).thenReturn(pedidos);
 
-        // Mock do mapper
+
         PedidoResponse pedidoResponse1 = new PedidoResponse();
         pedidoResponse1.setId("1");
         pedidoResponse1.setIdStatus("EM_ANDAMENTO");
 
         PedidoResponse pedidoResponse2 = new PedidoResponse();
         pedidoResponse2.setId("2");
-        pedidoResponse2.setIdStatus(null); // idStatus nulo
+        pedidoResponse2.setIdStatus(null);
 
         when(pedidoMapperEntity.toPedidoResponse(pedido1)).thenReturn(pedidoResponse1);
         when(pedidoMapperEntity.toPedidoResponse(pedido2)).thenReturn(pedidoResponse2);
-
-        // Teste da operação
         List<PedidoResponse> resultado = listarPedidosAdapter.listaPedidos();
-
-        // Verificação
         assertEquals(null, resultado.get(0).getIdStatus());
     }
 
     @Test
     @DisplayName("Deve retornar lista de pedidos por status corretamente")
     void listaPedidosPorStatus_DeveRetornarListaDePedidosPorStatusCorretamente() {
-        // Mock de pedidos
+
         PedidoEntity pedido1 = new PedidoEntity();
-        pedido1.setIdPedido("1");
+        pedido1.setId("1");
         pedido1.setIdStatus("CONCLUIDO");
 
         PedidoEntity pedido2 = new PedidoEntity();
-        pedido2.setIdPedido("2");
-        pedido2.setIdStatus(null); // idStatus nulo
+        pedido2.setId("2");
+        pedido2.setIdStatus(null);
 
         List<PedidoEntity> pedidos = Arrays.asList(pedido1, pedido2);
 
-        // Mock do comportamento do repository
         when(pedidoRepository.findAll()).thenReturn(pedidos);
 
-        // Mock do mapper
         PedidoResponse pedidoResponse1 = new PedidoResponse();
         pedidoResponse1.setId("1");
         pedidoResponse1.setIdStatus("CONCLUIDO");
 
         PedidoResponse pedidoResponse2 = new PedidoResponse();
         pedidoResponse2.setId("2");
-        pedidoResponse2.setIdStatus(null); // idStatus nulo
+        pedidoResponse2.setIdStatus(null);
 
         when(pedidoMapperEntity.toPedidoResponse(pedido1)).thenReturn(pedidoResponse1);
         when(pedidoMapperEntity.toPedidoResponse(pedido2)).thenReturn(pedidoResponse2);
 
-        // Teste da operação
         List<PedidoResponse> resultado = listarPedidosAdapter.listaPedidosPorStatus("CONCLUIDO");
 
-        // Verificação
         assertEquals(null, resultado.get(0).getIdStatus());
     }
 }

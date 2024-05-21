@@ -20,7 +20,7 @@ public class PedidoEntity extends Date {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	private String idPedido;
+	private String id;
 
 	private Integer senha;
 	private String idStatus;

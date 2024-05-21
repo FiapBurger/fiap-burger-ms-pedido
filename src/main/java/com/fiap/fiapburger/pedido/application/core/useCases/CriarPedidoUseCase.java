@@ -11,7 +11,6 @@ import com.fiap.fiapburger.pedido.infrastructure.api.responses.PedidoResponse;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.entities.PedidoEntity;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.mappers.PedidoMapperEntity;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -39,8 +38,6 @@ public class CriarPedidoUseCase implements CriarPedidoInputPort {
         pedido.setIdSatisfacao("0");
         PedidoEntity pedidoCriado = criarPedidoOutputPort.criarPedido(pedido);
         PedidoResponse pedidoResponse  = pedidoMapperEntity.toPedidoResponse(pedidoCriado);
-
-
 
         return pedidoResponse;
     }

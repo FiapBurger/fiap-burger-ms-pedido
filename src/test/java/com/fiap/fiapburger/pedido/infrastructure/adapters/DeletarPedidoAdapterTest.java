@@ -28,30 +28,24 @@ class DeletarPedidoAdapterTest {
 
     @Test
     void deletar_DeveDeletarPedidoExistente() {
-        // Arrange
         String idPedido = "1";
         PedidoEntity pedidoEntity = new PedidoEntity();
 
         when(pedidoRepository.findById(idPedido)).thenReturn(Optional.of(pedidoEntity));
 
-        // Act
         adapter.deletar(idPedido);
 
-        // Assert
         verify(pedidoRepository, times(1)).delete(pedidoEntity);
     }
 
     @Test
     void deletar_NaoDeveDeletarPedidoInexistente() {
-        // Arrange
         String idPedido = "1";
 
         when(pedidoRepository.findById(idPedido)).thenReturn(Optional.empty());
 
-        // Act
         adapter.deletar(idPedido);
 
-        // Assert
         verify(pedidoRepository, never()).delete(any());
     }
 }

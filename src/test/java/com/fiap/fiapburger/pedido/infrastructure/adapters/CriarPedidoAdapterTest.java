@@ -33,19 +33,14 @@ class CriarPedidoAdapterTest {
 
     @Test
     void criarPedido_DeveCriarPedidoCorretamente() {
-        // Arrange
         Pedido pedido = new Pedido();
 
         PedidoEntity pedidoEntity = new PedidoEntity();
-        // Configure o pedidoEntity conforme necessário
 
         when(pedidoEntityMapper.toPedidoEntity(any())).thenReturn(pedidoEntity);
         when(pedidoRepository.save(any())).thenReturn(pedidoEntity);
-
-        // Act
         PedidoEntity resultado = adapter.criarPedido(pedido);
 
-        // Assert
         assertEquals(pedidoEntity, resultado);
     }
 }
