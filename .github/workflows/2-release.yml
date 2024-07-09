@@ -51,9 +51,8 @@ jobs:
 
       - name: Create PR to main
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           PR_TITLE="Release ${{ env.NEXT_VERSION }}"
           PR_BODY="This PR releases version ${{ env.NEXT_VERSION }} to main"
-          gh auth login --with-token < ${{ secrets.GITHUB_TOKEN }}
           gh pr create --title "$PR_TITLE" --body "$PR_BODY" --head release.${{ env.NEXT_VERSION }} --base main
