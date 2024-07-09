@@ -5,7 +5,7 @@ import com.fiap.fiapburger.pedido.application.ports.out.CriarPedidoOutputPort;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.entities.ItensPedidoEntity;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.entities.PedidoEntity;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.mappers.PedidoMapperEntity;
-import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.PedidoRepository;
+import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.JpaPedidoRepository;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.ItensPedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ import java.util.List;
 public class CriarPedidoAdapter implements CriarPedidoOutputPort {
 
     @Autowired
-    private PedidoRepository pedidoRepository;
+    private JpaPedidoRepository jpaPedidoRepository;
 
     @Autowired
     ItensPedidoRepository itensPedidoRepository;
@@ -42,7 +42,7 @@ public class CriarPedidoAdapter implements CriarPedidoOutputPort {
         });
 
         pedidoEntity.setItensPedido(produtos);
-        PedidoEntity savedPedidoEntity = pedidoRepository.save(pedidoEntity);
+        PedidoEntity savedPedidoEntity = jpaPedidoRepository.save(pedidoEntity);
 
         return savedPedidoEntity;
     }

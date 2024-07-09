@@ -2,6 +2,7 @@ package com.fiap.fiapburger.pedido.infrastructure.api.controllers;
 
 import com.fiap.fiapburger.pedido.application.ports.in.*;
 import com.fiap.fiapburger.pedido.infrastructure.api.requests.*;
+import com.fiap.fiapburger.pedido.infrastructure.api.responses.EfetuarPagamentoResponse;
 import com.fiap.fiapburger.pedido.infrastructure.api.responses.PedidoResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,11 +10,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
-
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -36,6 +34,9 @@ public class PedidoControllerTest {
 
     @Mock
     private AtualizarStatusPedidoInputPort atualizarStatusPedidoInputPort;
+
+    @Mock
+    private EfetuarPagamentoInputPort efetuarPagamentoInputPort;
 
     @InjectMocks
     private PedidoController pedidoController;
@@ -111,12 +112,14 @@ public class PedidoControllerTest {
     @Test
     public void testEfetuarPagamento() {
         EfetuarPagamentoRequest request = new EfetuarPagamentoRequest();
+        request.setIdPagamento("1");
+        request.setIdPedido("idteste123");
+        request.setValorTotal("22");
 
-        ResponseEntity<PedidoResponse> result = pedidoController.efetuarPagamento(request);
+        EfetuarPagamentoResponse response = new EfetuarPagamentoResponse();
+        when(efetuarPagamentoInputPort.efetuarPagamento(request)).thenReturn(response);
 
-        assertEquals("3", result.getBody().getIdPagamento());
-        assertEquals("2", result.getBody().getIdStatus());
-        assertEquals("Pagamento efetuado com sucesso!", result.getBody().getDetalhes());
-        //assertEquals(BigDecimal.valueOf(22), result.getBody().getValorTotal());
+        ResponseEntity<EfetuarPagamentoResponse> result = pedidoController.efetuarPagamento(request);
+        assertEquals(response, result.getBody());
     }
 }

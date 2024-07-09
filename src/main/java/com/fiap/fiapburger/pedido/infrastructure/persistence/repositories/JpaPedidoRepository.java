@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface PedidoRepository extends JpaRepository<PedidoEntity, String> {
+public interface JpaPedidoRepository extends JpaRepository<PedidoEntity, String> {
     @Query("SELECT MAX(p.senha) FROM PedidoEntity p")
     Optional<Integer> findMaxSenha();
 }

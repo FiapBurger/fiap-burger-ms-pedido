@@ -1,7 +1,7 @@
 package com.fiap.fiapburger.pedido.infrastructure.adapters;
 
 import com.fiap.fiapburger.pedido.infrastructure.persistence.entities.PedidoEntity;
-import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.PedidoRepository;
+import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.JpaPedidoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -16,7 +16,7 @@ import static org.mockito.Mockito.*;
 class DeletarPedidoAdapterTest {
 
     @Mock
-    private PedidoRepository pedidoRepository;
+    private JpaPedidoRepository jpaPedidoRepository;
 
     @InjectMocks
     private DeletarPedidoAdapter adapter;
@@ -31,21 +31,21 @@ class DeletarPedidoAdapterTest {
         String idPedido = "1";
         PedidoEntity pedidoEntity = new PedidoEntity();
 
-        when(pedidoRepository.findById(idPedido)).thenReturn(Optional.of(pedidoEntity));
+        when(jpaPedidoRepository.findById(idPedido)).thenReturn(Optional.of(pedidoEntity));
 
         adapter.deletar(idPedido);
 
-        verify(pedidoRepository, times(1)).delete(pedidoEntity);
+        verify(jpaPedidoRepository, times(1)).delete(pedidoEntity);
     }
 
     @Test
     void deletar_NaoDeveDeletarPedidoInexistente() {
         String idPedido = "1";
 
-        when(pedidoRepository.findById(idPedido)).thenReturn(Optional.empty());
+        when(jpaPedidoRepository.findById(idPedido)).thenReturn(Optional.empty());
 
         adapter.deletar(idPedido);
 
-        verify(pedidoRepository, never()).delete(any());
+        verify(jpaPedidoRepository, never()).delete(any());
     }
 }

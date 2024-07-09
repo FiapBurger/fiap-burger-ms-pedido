@@ -9,7 +9,7 @@ import com.fiap.fiapburger.pedido.infrastructure.api.responses.PedidoResponse;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.entities.PedidoEntity;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.mappers.StatusMapper;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.ItensPedidoRepository;
-import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.PedidoRepository;
+import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.JpaPedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class BuscarPedidoAdapter implements BuscarPedidoOutputPort {
 
     @Autowired
-    private PedidoRepository pedidoRepository;
+    private JpaPedidoRepository jpaPedidoRepository;
 
     @Autowired
     private final PedidoMapper pedidoMapper;
@@ -28,10 +28,10 @@ public class BuscarPedidoAdapter implements BuscarPedidoOutputPort {
     @Autowired
     private final ItensPedidoRepository itensPedidoRepository;
 
-    public BuscarPedidoAdapter(PedidoRepository pedidoRepository, PedidoMapper pedidoMapper, StatusMapper statusMapper, ItensPedidoRepository itensPedidoRepository) {
+    public BuscarPedidoAdapter(JpaPedidoRepository jpaPedidoRepository, PedidoMapper pedidoMapper, StatusMapper statusMapper, ItensPedidoRepository itensPedidoRepository) {
         this.pedidoMapper = pedidoMapper;
         this.statusMapper = statusMapper;
-        this.pedidoRepository = pedidoRepository;
+        this.jpaPedidoRepository = jpaPedidoRepository;
         this.itensPedidoRepository = itensPedidoRepository;
     }
 
@@ -41,7 +41,7 @@ public class BuscarPedidoAdapter implements BuscarPedidoOutputPort {
 
         PedidoResponse pedidoResponse = new PedidoResponse();
 
-        PedidoEntity pedidoEntity = pedidoRepository.findById(pedido.getId())
+        PedidoEntity pedidoEntity = jpaPedidoRepository.findById(pedido.getId())
                 .orElseThrow(() -> new PedidoNaoEncontradoException(ExceptionsMessageEnum.PEDIDO_NAO_ENCONTRADO.value()));
         pedidoResponse = PedidoMapper.toPedidoResponse(pedidoEntity);
 

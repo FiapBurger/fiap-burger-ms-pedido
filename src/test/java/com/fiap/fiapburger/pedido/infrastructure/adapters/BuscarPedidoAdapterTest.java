@@ -1,13 +1,12 @@
 package com.fiap.fiapburger.pedido.infrastructure.adapters;
 
 import com.fiap.fiapburger.pedido.application.core.domain.Pedido;
-import com.fiap.fiapburger.pedido.application.core.exceptions.ExceptionsMessageEnum;
 import com.fiap.fiapburger.pedido.application.core.exceptions.PedidoNaoEncontradoException;
 import com.fiap.fiapburger.pedido.infrastructure.api.mappers.PedidoMapper;
 import com.fiap.fiapburger.pedido.infrastructure.api.responses.PedidoResponse;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.entities.PedidoEntity;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.mappers.StatusMapper;
-import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.PedidoRepository;
+import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.JpaPedidoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -24,7 +23,7 @@ import static org.mockito.Mockito.*;
 class BuscarPedidoAdapterTest {
 
     @Mock
-    private PedidoRepository pedidoRepository;
+    private JpaPedidoRepository jpaPedidoRepository;
 
     @Mock
     private PedidoMapper pedidoMapper;
@@ -50,7 +49,7 @@ class BuscarPedidoAdapterTest {
 
         PedidoResponse pedidoResponseEsperado = new PedidoResponse();
 
-        when(pedidoRepository.findById("1")).thenReturn(Optional.of(pedidoEntity));
+        when(jpaPedidoRepository.findById("1")).thenReturn(Optional.of(pedidoEntity));
         when(PedidoMapper.toPedidoResponse(any())).thenReturn(pedidoResponseEsperado);
 
         PedidoResponse resultado = adapter.buscar(pedido);
@@ -63,7 +62,7 @@ class BuscarPedidoAdapterTest {
         Pedido pedido = new Pedido();
         pedido.setId("1");
 
-        when(pedidoRepository.findById("1")).thenReturn(Optional.empty());
+        when(jpaPedidoRepository.findById("1")).thenReturn(Optional.empty());
 
         assertThrows(PedidoNaoEncontradoException.class, () -> adapter.buscar(pedido));
     }

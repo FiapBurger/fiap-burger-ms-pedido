@@ -2,14 +2,13 @@ package com.fiap.fiapburger.pedido.infrastructure.adapters;
 
 import com.fiap.fiapburger.pedido.application.core.domain.Pedido;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.entities.PedidoEntity;
-import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.PedidoRepository;
+import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.JpaPedidoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Date;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -19,7 +18,7 @@ import static org.mockito.Mockito.*;
 class AtualizarStatusPedidoAdapterTest {
 
     @Mock
-    private PedidoRepository pedidoRepository;
+    private JpaPedidoRepository jpaPedidoRepository;
 
     @InjectMocks
     private AtualizarStatusPedidoAdapter adapter;
@@ -41,7 +40,7 @@ class AtualizarStatusPedidoAdapterTest {
         pedidoEntity.setIdStatus("5");
         pedidoEntity.setIdPagamento("0");
 
-        when(pedidoRepository.findById("1")).thenReturn(Optional.of(pedidoEntity));
+        when(jpaPedidoRepository.findById("1")).thenReturn(Optional.of(pedidoEntity));
 
         assertThrows(RuntimeException.class, () -> adapter.atualizarStatusPedido(pedido));
     }
@@ -53,7 +52,7 @@ class AtualizarStatusPedidoAdapterTest {
         pedido.setIdStatus("6");
         pedido.setIdPagamento("1");
 
-        when(pedidoRepository.findById("1")).thenReturn(Optional.empty());
+        when(jpaPedidoRepository.findById("1")).thenReturn(Optional.empty());
 
         assertThrows(RuntimeException.class, () -> adapter.atualizarStatusPedido(pedido));
     }

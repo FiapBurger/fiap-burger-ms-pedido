@@ -2,7 +2,7 @@ package com.fiap.fiapburger.pedido.infrastructure.adapters;
 
 import com.fiap.fiapburger.pedido.infrastructure.api.responses.PedidoResponse;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.entities.PedidoEntity;
-import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.PedidoRepository;
+import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.JpaPedidoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,13 +14,13 @@ import static org.mockito.Mockito.when;
 
 public class ListarPedidosAdapterTest {
 
-    private PedidoRepository pedidoRepository;
+    private JpaPedidoRepository jpaPedidoRepository;
     private ListarPedidosAdapter listarPedidosAdapter;
 
     @BeforeEach
     void setUp() {
-        pedidoRepository = mock(PedidoRepository.class);
-        listarPedidosAdapter = new ListarPedidosAdapter(pedidoRepository);
+        jpaPedidoRepository = mock(JpaPedidoRepository.class);
+        listarPedidosAdapter = new ListarPedidosAdapter(jpaPedidoRepository);
     }
 
     @Test
@@ -37,7 +37,7 @@ public class ListarPedidosAdapterTest {
         List<PedidoEntity> pedidos = Arrays.asList(pedido1, pedido2);
 
 
-        when(pedidoRepository.findAll()).thenReturn(pedidos);
+        when(jpaPedidoRepository.findAll()).thenReturn(pedidos);
 
 
         PedidoResponse pedidoResponse1 = new PedidoResponse();
@@ -68,7 +68,7 @@ public class ListarPedidosAdapterTest {
 
         List<PedidoEntity> pedidos = Arrays.asList(pedido1, pedido2);
 
-        when(pedidoRepository.findAll()).thenReturn(pedidos);
+        when(jpaPedidoRepository.findAll()).thenReturn(pedidos);
 
         PedidoResponse pedidoResponse1 = new PedidoResponse();
         pedidoResponse1.setId("1");

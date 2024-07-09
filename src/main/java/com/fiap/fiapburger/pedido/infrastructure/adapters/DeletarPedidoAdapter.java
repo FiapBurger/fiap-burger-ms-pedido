@@ -4,7 +4,7 @@ import com.fiap.fiapburger.pedido.application.core.exceptions.ExceptionsMessageE
 import com.fiap.fiapburger.pedido.application.core.exceptions.PedidoNaoEncontradoException;
 import com.fiap.fiapburger.pedido.application.ports.out.DeletarPedidoOutputPort;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.entities.PedidoEntity;
-import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.PedidoRepository;
+import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.JpaPedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,14 +12,14 @@ import org.springframework.stereotype.Component;
 public class DeletarPedidoAdapter implements DeletarPedidoOutputPort {
 
     @Autowired
-    PedidoRepository pedidoRepository;
+    JpaPedidoRepository jpaPedidoRepository;
 
     @Override
     public void deletar(String idPedido) {
-       PedidoEntity pedido = pedidoRepository.findById(idPedido)
+       PedidoEntity pedido = jpaPedidoRepository.findById(idPedido)
                .orElseThrow(() -> new PedidoNaoEncontradoException(ExceptionsMessageEnum.PEDIDO_NAO_ENCONTRADO.value()));
 
-       pedidoRepository.delete(pedido);
+       jpaPedidoRepository.delete(pedido);
     }
 
 }

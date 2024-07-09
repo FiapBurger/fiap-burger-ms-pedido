@@ -3,6 +3,7 @@ package com.fiap.fiapburger.pedido.infrastructure.api.controllers;
 import com.fiap.fiapburger.pedido.application.ports.in.*;
 import com.fiap.fiapburger.pedido.infrastructure.api.mappers.PedidoMapper;
 import com.fiap.fiapburger.pedido.infrastructure.api.requests.*;
+import com.fiap.fiapburger.pedido.infrastructure.api.responses.EfetuarPagamentoResponse;
 import com.fiap.fiapburger.pedido.infrastructure.api.responses.PedidoResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +21,17 @@ public class PedidoController {
     private final AvaliarPedidoInputPort avaliarPedidoInputPort;
     private final ListarPedidosInputPort listarPedidosInputPort;
     private final AtualizarStatusPedidoInputPort atualizarStatusPedidoInputPort;
+    private final EfetuarPagamentoInputPort efetuarPagamentoInputPort;
 
     @Autowired
-    public PedidoController(CriarPedidoInputPort criarPedidoInputPort, BuscarPedidoInputPort buscarPedidoInputPort, DeletarPedidoInputPort deletarPedidoInputPort, AvaliarPedidoInputPort avaliarPedidoInputPort, ListarPedidosInputPort listarPedidosInputPort, AtualizarStatusPedidoInputPort atualizarStatusPedidoInputPort) {
+    public PedidoController(CriarPedidoInputPort criarPedidoInputPort, BuscarPedidoInputPort buscarPedidoInputPort, DeletarPedidoInputPort deletarPedidoInputPort, AvaliarPedidoInputPort avaliarPedidoInputPort, ListarPedidosInputPort listarPedidosInputPort, AtualizarStatusPedidoInputPort atualizarStatusPedidoInputPort, EfetuarPagamentoInputPort efetuarPagamentoInputPort) {
         this.criarPedidoInputPort = criarPedidoInputPort;
         this.buscarPedidoInputPort = buscarPedidoInputPort;
         this.deletarPedidoInputPort = deletarPedidoInputPort;
         this.avaliarPedidoInputPort = avaliarPedidoInputPort;
         this.listarPedidosInputPort = listarPedidosInputPort;
         this.atualizarStatusPedidoInputPort = atualizarStatusPedidoInputPort;
+        this.efetuarPagamentoInputPort = efetuarPagamentoInputPort;
     }
 
 
@@ -77,13 +80,8 @@ public class PedidoController {
     };
 
     @PostMapping("/efetuar-pagamento")
-    public ResponseEntity<PedidoResponse> efetuarPagamento(@Valid @RequestBody EfetuarPagamentoRequest efetuarPagamentoRequest){
-        PedidoResponse pedidoResponse = new PedidoResponse();
-        pedidoResponse.setId(efetuarPagamentoRequest.getIdPedido());
-        pedidoResponse.setIdPagamento("3");
-        pedidoResponse.setIdStatus("2");
-        pedidoResponse.setDetalhes("Pagamento efetuado com sucesso!");
-
-        return ResponseEntity.ok(pedidoResponse);
+    public ResponseEntity<EfetuarPagamentoResponse> efetuarPagamento(@Valid @RequestBody EfetuarPagamentoRequest efetuarPagamentoRequest){
+        EfetuarPagamentoResponse response= efetuarPagamentoInputPort.efetuarPagamento(efetuarPagamentoRequest);
+        return ResponseEntity.ok(response);
     }
 }
