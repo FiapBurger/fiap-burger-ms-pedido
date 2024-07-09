@@ -1,0 +1,58 @@
+name: Create Release PR
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  create-release-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install GitHub CLI
+        run: sudo apt-get install -y gh
+
+      - name: Setup Git
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+
+      - name: Determine next release version
+        id: release_version
+        run: |
+          # Fetch all tags to determine the next release version
+          git fetch --tags
+          LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+          if [ -z "$LATEST_TAG" ]; then
+            NEXT_VERSION="0.1.0"
+          else
+            # Parse version from tag name
+            VERSION=$(echo "$LATEST_TAG" | sed 's/^v//')
+            # Increment patch version
+            IFS='.' read -r -a VERSION_PARTS <<< "$VERSION"
+            MAJOR="${VERSION_PARTS[0]}"
+            MINOR="${VERSION_PARTS[1]}"
+            PATCH="${VERSION_PARTS[2]}"
+            NEXT_PATCH=$((PATCH + 1))
+            NEXT_VERSION="$MAJOR.$MINOR.$NEXT_PATCH"
+          fi
+          echo "NEXT_VERSION=$NEXT_VERSION" >> $GITHUB_ENV
+
+      - name: Create release branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git checkout -b release.${{ env.NEXT_VERSION }}
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/FiapBurger/fiap-burger-ms-pedido.git release.${{ env.NEXT_VERSION }}
+
+      - name: Create PR to main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_TITLE="Release ${{ env.NEXT_VERSION }}"
+          PR_BODY="This PR releases version ${{ env.NEXT_VERSION }} to main"
+          gh pr create --title "$PR_TITLE" --body "$PR_BODY" --head release.${{ env.NEXT_VERSION }} --base main

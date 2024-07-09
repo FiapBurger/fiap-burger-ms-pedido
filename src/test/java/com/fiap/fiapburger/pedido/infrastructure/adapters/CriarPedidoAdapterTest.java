@@ -2,9 +2,8 @@ package com.fiap.fiapburger.pedido.infrastructure.adapters;
 
 import com.fiap.fiapburger.pedido.application.core.domain.Pedido;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.entities.PedidoEntity;
-import com.fiap.fiapburger.pedido.infrastructure.persistence.mappers.PedidoEntityMapper;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.mappers.PedidoMapperEntity;
-import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.PedidoRepository;
+import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.JpaPedidoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -18,7 +17,7 @@ import static org.mockito.Mockito.*;
 class CriarPedidoAdapterTest {
 
     @Mock
-    private PedidoRepository pedidoRepository;
+    private JpaPedidoRepository jpaPedidoRepository;
 
     @Mock
     private PedidoMapperEntity pedidoEntityMapper;
@@ -38,7 +37,7 @@ class CriarPedidoAdapterTest {
         PedidoEntity pedidoEntity = new PedidoEntity();
 
         when(pedidoEntityMapper.toPedidoEntity(any())).thenReturn(pedidoEntity);
-        when(pedidoRepository.save(any())).thenReturn(pedidoEntity);
+        when(jpaPedidoRepository.save(any())).thenReturn(pedidoEntity);
         PedidoEntity resultado = adapter.criarPedido(pedido);
 
         assertEquals(pedidoEntity, resultado);

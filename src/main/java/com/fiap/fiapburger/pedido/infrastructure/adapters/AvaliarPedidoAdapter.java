@@ -5,7 +5,7 @@ import com.fiap.fiapburger.pedido.application.core.exceptions.ClienteNaoEncontra
 import com.fiap.fiapburger.pedido.application.core.exceptions.ExceptionsMessageEnum;
 import com.fiap.fiapburger.pedido.application.ports.out.AvaliarPedidoOutputPort;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.entities.PedidoEntity;
-import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.PedidoRepository;
+import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.JpaPedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.Optional;
@@ -14,15 +14,15 @@ import java.util.Optional;
 public class AvaliarPedidoAdapter implements AvaliarPedidoOutputPort {
 
     @Autowired
-    private PedidoRepository pedidoRepository;
+    private JpaPedidoRepository jpaPedidoRepository;
 
     @Override
     public void avaliar(Pedido pedido) {
 
-        Optional<PedidoEntity> pedidoEntity = pedidoRepository.findById(pedido.getId());
+        Optional<PedidoEntity> pedidoEntity = jpaPedidoRepository.findById(pedido.getId());
         if(pedidoEntity.isPresent()){
             pedidoEntity.get().setIdSatisfacao(pedido.getIdSatisfacao());
-            pedidoRepository.save(pedidoEntity.get());
+            jpaPedidoRepository.save(pedidoEntity.get());
         }else{
             throw new ClienteNaoEncontradoException(ExceptionsMessageEnum.PEDIDO_NAO_ENCONTRADO.value());
         }

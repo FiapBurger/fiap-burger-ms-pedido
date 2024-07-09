@@ -1,7 +1,6 @@
 package com.fiap.fiapburger.pedido.infrastructure.persistence.mappers;
 
 import com.fiap.fiapburger.pedido.application.core.domain.enums.StatusPedido;
-import com.fiap.fiapburger.pedido.infrastructure.api.responses.PedidoResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -20,7 +19,7 @@ public class StatusMapper {
         STATUS_MAP.put("6", StatusPedido.ENTREGUE_AO_CLIENTE.name());
     }
 
-    public String atualizarStatus(String idStatus) {
+    public String getStatus(String idStatus) {
        return STATUS_MAP.getOrDefault(idStatus, "Status Desconhecido");
     }
 }
