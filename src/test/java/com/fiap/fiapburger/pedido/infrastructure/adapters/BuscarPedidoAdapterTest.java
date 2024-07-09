@@ -51,7 +51,7 @@ class BuscarPedidoAdapterTest {
         PedidoResponse pedidoResponseEsperado = new PedidoResponse();
 
         when(pedidoRepository.findById("1")).thenReturn(Optional.of(pedidoEntity));
-        when(pedidoMapper.toPedidoResponse(any())).thenReturn(pedidoResponseEsperado);
+        when(PedidoMapper.toPedidoResponse(any())).thenReturn(pedidoResponseEsperado);
 
         PedidoResponse resultado = adapter.buscar(pedido);
 

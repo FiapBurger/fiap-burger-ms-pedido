@@ -35,7 +35,7 @@ public class PedidoController {
     @PostMapping()
     @ResponseBody
     public ResponseEntity<PedidoResponse> criarPedido(@Valid @RequestBody CriarPedidoRequest criarPedidoRequest){
-        var response = criarPedidoInputPort.criarPedido(criarPedidoRequest);
+        PedidoResponse response = criarPedidoInputPort.criarPedido(criarPedidoRequest);
         return ResponseEntity.ok(response);
     };
 
@@ -54,19 +54,19 @@ public class PedidoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PedidoResponse> buscar(@PathVariable String id){
-        var pedido = buscarPedidoInputPort.buscaPedido(id);
+        PedidoResponse pedido = buscarPedidoInputPort.buscaPedido(id);
         return ResponseEntity.ok(pedido);
     }
 
     @GetMapping()
     public ResponseEntity<List<PedidoResponse>> listaPedidos(){
-        var pedidos = listarPedidosInputPort.listaPedidos();
+        List<PedidoResponse> pedidos = listarPedidosInputPort.listaPedidos();
         return ResponseEntity.ok(pedidos);
     }
 
     @GetMapping("/listar/{id_status}")
     public ResponseEntity<List<PedidoResponse>> listaPedidosPorStatus(@PathVariable String id_status){
-        var pedidos = listarPedidosInputPort.listaPedidosPorStatus(id_status);
+        List<PedidoResponse> pedidos = listarPedidosInputPort.listaPedidosPorStatus(id_status);
         return ResponseEntity.ok(pedidos);
     }
 

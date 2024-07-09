@@ -2,9 +2,10 @@ package com.fiap.fiapburger.pedido.infrastructure.api.responses;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fiap.fiapburger.pedido.application.core.domain.Produto;
+import com.fiap.fiapburger.pedido.application.core.domain.ItensPedido;
 import lombok.Data;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class PedidoResponse {
     private String id;
 
     @JsonProperty("senha")
-    private Long senha;
+    private Integer senha;
 
     @JsonProperty("id_status")
     private String idStatus;
@@ -31,10 +32,10 @@ public class PedidoResponse {
     private BigDecimal valorTotal;
 
     @JsonProperty("data_hora_inicio")
-    private Date dataHoraInicio;
+    private LocalDateTime dataHoraInicio;
 
     @JsonProperty("data_hora_fim")
-    private Date dataHoraFim;
+    private LocalDateTime dataHoraFim;
 
     @JsonProperty("id_pagamento")
     private String idPagamento;
@@ -43,5 +44,5 @@ public class PedidoResponse {
     private String idSatisfacao;
 
     @JsonProperty("itens_pedido")
-    private List<Produto> itensPedido;
+    private List<ItensPedidoResponse> itensPedido;
 }

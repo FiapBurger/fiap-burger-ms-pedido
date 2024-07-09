@@ -3,7 +3,6 @@ package com.fiap.fiapburger.pedido.infrastructure.adapters;
 import com.fiap.fiapburger.pedido.infrastructure.api.responses.PedidoResponse;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.entities.PedidoEntity;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.PedidoRepository;
-import com.fiap.fiapburger.pedido.infrastructure.persistence.mappers.PedidoMapperEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,14 +15,12 @@ import static org.mockito.Mockito.when;
 public class ListarPedidosAdapterTest {
 
     private PedidoRepository pedidoRepository;
-    private PedidoMapperEntity pedidoMapperEntity;
     private ListarPedidosAdapter listarPedidosAdapter;
 
     @BeforeEach
     void setUp() {
         pedidoRepository = mock(PedidoRepository.class);
-        pedidoMapperEntity = mock(PedidoMapperEntity.class);
-        listarPedidosAdapter = new ListarPedidosAdapter(pedidoRepository, pedidoMapperEntity);
+        listarPedidosAdapter = new ListarPedidosAdapter(pedidoRepository);
     }
 
     @Test
@@ -51,8 +48,8 @@ public class ListarPedidosAdapterTest {
         pedidoResponse2.setId("2");
         pedidoResponse2.setIdStatus(null);
 
-        when(pedidoMapperEntity.toPedidoResponse(pedido1)).thenReturn(pedidoResponse1);
-        when(pedidoMapperEntity.toPedidoResponse(pedido2)).thenReturn(pedidoResponse2);
+//        when(pedidoMapperEntity.toPedidoResponse(pedido1)).thenReturn(pedidoResponse1);
+//        when(pedidoMapperEntity.toPedidoResponse(pedido2)).thenReturn(pedidoResponse2);
         List<PedidoResponse> resultado = listarPedidosAdapter.listaPedidos();
         assertEquals(null, resultado.get(0).getIdStatus());
     }
@@ -81,8 +78,8 @@ public class ListarPedidosAdapterTest {
         pedidoResponse2.setId("2");
         pedidoResponse2.setIdStatus(null);
 
-        when(pedidoMapperEntity.toPedidoResponse(pedido1)).thenReturn(pedidoResponse1);
-        when(pedidoMapperEntity.toPedidoResponse(pedido2)).thenReturn(pedidoResponse2);
+//        when(pedidoMapperEntity.toPedidoResponse(pedido1)).thenReturn(pedidoResponse1);
+//        when(pedidoMapperEntity.toPedidoResponse(pedido2)).thenReturn(pedidoResponse2);
 
         List<PedidoResponse> resultado = listarPedidosAdapter.listaPedidosPorStatus("CONCLUIDO");
 
