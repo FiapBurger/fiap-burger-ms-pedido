@@ -1,6 +1,8 @@
 package com.fiap.fiapburger.pedido.application.core.domain;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,16 +14,16 @@ public class Pedido {
     private String cpf;
     private String detalhes;
     private BigDecimal valorTotal;
-    private Date dataHoraInicio;
-    private Date dataHoraFim;
+    private LocalDateTime dataHoraInicio;
+    private LocalDateTime dataHoraFim;
     private String idPagamento;
     private String idSatisfacao;
-    private List<Produto> itensPedido;
+    private List<ItensPedido> itensPedido = new ArrayList<>();
 
     public Pedido() {
     }
 
-    public Pedido(String id, Integer senha, String idStatus, String cpf, String detalhes, BigDecimal valorTotal, Date dataHoraInicio, Date dataHoraFim, String idPagamento, String idSatisfacao, List<Produto> itensPedido) {
+    public Pedido(String id, Integer senha, String idStatus, String cpf, String detalhes, BigDecimal valorTotal, LocalDateTime dataHoraInicio, LocalDateTime dataHoraFim, String idPagamento, String idSatisfacao, List<ItensPedido> itensPedido) {
         this.id = id;
         this.senha = senha;
         this.idStatus = idStatus;
@@ -83,19 +85,19 @@ public class Pedido {
         this.valorTotal = valorTotal;
     }
 
-    public Date getDataHoraInicio() {
+    public LocalDateTime getDataHoraInicio() {
         return dataHoraInicio;
     }
 
-    public void setDataHoraInicio(Date dataHoraInicio) {
+    public void setDataHoraInicio(LocalDateTime dataHoraInicio) {
         this.dataHoraInicio = dataHoraInicio;
     }
 
-    public Date getDataHoraFim() {
+    public LocalDateTime getDataHoraFim() {
         return dataHoraFim;
     }
 
-    public void setDataHoraFim(Date dataHoraFim) {
+    public void setDataHoraFim(LocalDateTime dataHoraFim) {
         this.dataHoraFim = dataHoraFim;
     }
 
@@ -115,11 +117,28 @@ public class Pedido {
         this.idSatisfacao = idSatisfacao;
     }
 
-    public List<Produto> getItensPedido() {
+    public List<ItensPedido> getItensPedido() {
         return itensPedido;
     }
 
-    public void setItensPedido(List<Produto> itensPedido) {
+    public void setItensPedido(List<ItensPedido> itensPedido) {
         this.itensPedido = itensPedido;
+    }
+
+    @Override
+    public String toString() {
+        return "Pedido{" +
+                "id='" + id + '\'' +
+                ", senha=" + senha +
+                ", idStatus='" + idStatus + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", detalhes='" + detalhes + '\'' +
+                ", valorTotal=" + valorTotal +
+                ", dataHoraInicio=" + dataHoraInicio +
+                ", dataHoraFim=" + dataHoraFim +
+                ", idPagamento='" + idPagamento + '\'' +
+                ", idSatisfacao='" + idSatisfacao + '\'' +
+                ", itensPedido=" + itensPedido +
+                '}';
     }
 }

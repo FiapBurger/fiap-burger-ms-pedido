@@ -2,7 +2,7 @@ package com.fiap.fiapburger.pedido.application.core.domain;
 
 import java.math.BigDecimal;
 
-public class Produto {
+public class ItensPedido {
 
     private String id;
     private Pedido pedido;
@@ -10,7 +10,7 @@ public class Produto {
     private String descricao;
     private String urlImagem;
     private BigDecimal preco;
-    private String idCategoria;
+    private String categoria;
 
 
     public String getId() {
@@ -53,12 +53,12 @@ public class Produto {
         this.preco = preco;
     }
 
-    public String getIdCategoria() {
-        return idCategoria;
+    public String getCategoria() {
+        return categoria;
     }
 
-    public void setIdCategoria(String idCategoria) {
-        this.idCategoria = idCategoria;
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
     }
 
     public Pedido getPedido() {
@@ -67,5 +67,18 @@ public class Produto {
 
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
+    }
+
+    @Override
+    public String toString() {
+        return "Produto{" +
+                "id='" + id + '\'' +
+                ", pedido=" + pedido +
+                ", nome='" + nome + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", urlImagem='" + urlImagem + '\'' +
+                ", preco=" + preco +
+                ", categoria='" + categoria + '\'' +
+                '}';
     }
 }

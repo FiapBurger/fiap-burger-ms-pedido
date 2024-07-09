@@ -3,7 +3,7 @@ package com.fiap.fiapburger.pedido.infrastructure.adapters;
 import com.fiap.fiapburger.pedido.application.core.domain.Pedido;
 import com.fiap.fiapburger.pedido.application.core.exceptions.ClienteNaoEncontradoException;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.entities.PedidoEntity;
-import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.PedidoRepository;
+import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.JpaPedidoRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,7 +17,7 @@ import static org.mockito.Mockito.*;
 class AvaliarPedidoAdapterTest {
 
     @Mock
-    private PedidoRepository pedidoRepository;
+    private JpaPedidoRepository jpaPedidoRepository;
 
     @InjectMocks
     private AvaliarPedidoAdapter adapter;
@@ -36,11 +36,11 @@ class AvaliarPedidoAdapterTest {
         PedidoEntity pedidoEntity = new PedidoEntity();
         pedidoEntity.setId("1");
 
-        when(pedidoRepository.findById("1")).thenReturn(Optional.of(pedidoEntity));
+        when(jpaPedidoRepository.findById("1")).thenReturn(Optional.of(pedidoEntity));
 
         adapter.avaliar(pedido);
 
-        verify(pedidoRepository, times(1)).save(any());
+        verify(jpaPedidoRepository, times(1)).save(any());
     }
 
     @Test
@@ -49,7 +49,7 @@ class AvaliarPedidoAdapterTest {
         pedido.setId("1");
         pedido.setIdSatisfacao("5");
 
-        when(pedidoRepository.findById("1")).thenReturn(Optional.empty());
+        when(jpaPedidoRepository.findById("1")).thenReturn(Optional.empty());
 
         assertThrows(ClienteNaoEncontradoException.class, () -> adapter.avaliar(pedido));
     }

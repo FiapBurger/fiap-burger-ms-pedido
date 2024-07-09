@@ -11,6 +11,7 @@ public class PedidoMapperEntity {
     public PedidoEntity toPedidoEntity(Pedido pedido) {
         var pedidoEntity = new PedidoEntity();
         BeanUtils.copyProperties(pedido, pedidoEntity);
+
         return pedidoEntity;
     }
 
