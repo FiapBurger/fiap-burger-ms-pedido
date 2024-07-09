@@ -44,16 +44,16 @@ jobs:
 
       - name: Create release branch
         env:
-          ACTION_PERSONAL: ${{ secrets.ACTION_PERSONAL }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git checkout -b release.${{ env.NEXT_VERSION }}
-          git remote set-url origin https://${{ secrets.ACTION_PERSONAL }}@github.com/FiapBurger/fiap-burger-ms-pedido.git
-          git push origin release.${{ env.NEXT_VERSION }}
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/FiapBurger/fiap-burger-ms-pedido.git release.${{ env.NEXT_VERSION }}
 
       - name: Create PR to main
         env:
-          GITHUB_TOKEN: ${{ secrets.ACTION_PERSONAL }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           PR_TITLE="Release ${{ env.NEXT_VERSION }}"
           PR_BODY="This PR releases version ${{ env.NEXT_VERSION }} to main"
+          gh auth login --with-token < ${{ secrets.GITHUB_TOKEN }}
           gh pr create --title "$PR_TITLE" --body "$PR_BODY" --head release.${{ env.NEXT_VERSION }} --base main
