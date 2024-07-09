@@ -47,7 +47,8 @@ jobs:
           ACTION_PERSONAL: ${{ secrets.ACTION_PERSONAL }}
         run: |
           git checkout -b release.${{ env.NEXT_VERSION }}
-          git push https://${{ secrets.ACTION_PERSONAL }}@github.com/FiapBurger/fiap-burger-ms-pedido.git release.${{ env.NEXT_VERSION }}
+          git remote set-url origin https://${{ secrets.ACTION_PERSONAL }}@github.com/FiapBurger/fiap-burger-ms-pedido.git
+          git push origin release.${{ env.NEXT_VERSION }}
 
       - name: Create PR to main
         env:
