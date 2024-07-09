@@ -1,0 +1,32 @@
+name: Open PR to Develop
+
+on:
+  push:
+    branches:
+      - 'feature/*'
+
+permissions:
+  pull-requests: write
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install GitHub CLI
+        run: sudo apt-get install -y gh
+
+      - name: Extract branch name
+        id: extract_branch
+        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+
+      - name: Create PR to develop
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH_NAME=$(echo "${{ github.ref }}" | sed 's/refs\/heads\///')
+          PR_TITLE="Merge $BRANCH_NAME to develop"
+          PR_BODY="This PR merges the $BRANCH_NAME branch to develop"
+          gh pr create --title "$PR_TITLE" --body "$PR_BODY" --head "$BRANCH_NAME" --base develop
