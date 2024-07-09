@@ -1,5 +1,6 @@
 package com.fiap.fiapburger.pedido.infrastructure.adapters;
 
+import com.fiap.fiapburger.pedido.application.core.exceptions.PedidoNaoEncontradoException;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.entities.PedidoEntity;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.JpaPedidoRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -44,7 +46,7 @@ class DeletarPedidoAdapterTest {
 
         when(jpaPedidoRepository.findById(idPedido)).thenReturn(Optional.empty());
 
-        adapter.deletar(idPedido);
+        assertThrows(PedidoNaoEncontradoException.class, () -> adapter.deletar(idPedido));
 
         verify(jpaPedidoRepository, never()).delete(any());
     }

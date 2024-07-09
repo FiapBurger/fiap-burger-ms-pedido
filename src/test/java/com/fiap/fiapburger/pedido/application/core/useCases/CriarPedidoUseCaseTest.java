@@ -11,11 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 
@@ -29,6 +27,7 @@ class CriarPedidoUseCaseTest {
 
     private CriarPedidoUseCase useCase;
 
+    @Mock
     private GerarSenhaUseCase gerarSenhaUseCase;
 
     @BeforeEach

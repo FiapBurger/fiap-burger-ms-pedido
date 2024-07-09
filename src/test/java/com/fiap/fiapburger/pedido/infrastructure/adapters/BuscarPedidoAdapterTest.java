@@ -4,6 +4,7 @@ import com.fiap.fiapburger.pedido.application.core.domain.Pedido;
 import com.fiap.fiapburger.pedido.application.core.exceptions.PedidoNaoEncontradoException;
 import com.fiap.fiapburger.pedido.infrastructure.api.mappers.PedidoMapper;
 import com.fiap.fiapburger.pedido.infrastructure.api.responses.PedidoResponse;
+import com.fiap.fiapburger.pedido.infrastructure.persistence.entities.ItensPedidoEntity;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.entities.PedidoEntity;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.mappers.StatusMapper;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.JpaPedidoRepository;
@@ -12,12 +13,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class BuscarPedidoAdapterTest {
@@ -43,18 +44,24 @@ class BuscarPedidoAdapterTest {
     void buscar_DeveRetornarPedidoResponseCorretoQuandoPedidoExistir() {
         Pedido pedido = new Pedido();
         pedido.setId("1");
-
         PedidoEntity pedidoEntity = new PedidoEntity();
         pedidoEntity.setId("1");
-
-        PedidoResponse pedidoResponseEsperado = new PedidoResponse();
+        List<ItensPedidoEntity> itens = new ArrayList<>();
+        ItensPedidoEntity itensPedido = new ItensPedidoEntity();
+        itensPedido.setId("1");
+        itensPedido.setPreco(BigDecimal.valueOf(10));
+        itensPedido.setDescricao("teste");
+        itensPedido.setPedido(pedidoEntity);
+        itensPedido.setNome("item teste");
+        itensPedido.setCategoria("item categoria");
+        itens.add(itensPedido);
+        pedidoEntity.setItensPedido(itens);
 
         when(jpaPedidoRepository.findById("1")).thenReturn(Optional.of(pedidoEntity));
-        when(PedidoMapper.toPedidoResponse(any())).thenReturn(pedidoResponseEsperado);
 
         PedidoResponse resultado = adapter.buscar(pedido);
 
-        assertEquals(pedidoResponseEsperado, resultado);
+        assertEquals("1", resultado.getId());
     }
 
     @Test
