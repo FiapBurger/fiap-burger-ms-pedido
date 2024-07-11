@@ -7,9 +7,9 @@ services:
     container_name: postgres
     restart: always
     environment:
-      POSTGRES_PASSWORD: fiap@123
-      POSTGRES_USER: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: fiap-burguer
+      POSTGRES_USER: leandro
+      POSTGRES_DB: pedidos
     ports:
       - "5432:5432"
     volumes:
@@ -23,22 +23,5 @@ services:
     ports:
       - 8080:8080
 
-  fiap-burger-ms-pedido:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: fiap-burger-ms-pedido
-    ports:
-      - "8989:8989"
-    depends_on:
-      - postgres
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: fiap@123
-      SPRING_DATASOURCE_DRIVER-CLASS-NAME: org.postgresql.Driver
-      SPRING_DATASOURCE_JPA_DATABASE-PLATFORM: org.hibernate.dialect.PostgreSQLDialect
-
 volumes:
   postgres-data:
-
