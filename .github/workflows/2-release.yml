@@ -43,13 +43,15 @@ jobs:
           echo "NEXT_VERSION=$NEXT_VERSION" >> $GITHUB_ENV
 
       - name: Create release branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git checkout -b release.${{ env.NEXT_VERSION }}
-          git push origin release.${{ env.NEXT_VERSION }}
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/FiapBurger/fiap-burger-ms-pedido.git release.${{ env.NEXT_VERSION }}
 
       - name: Create PR to main
         env:
-          GITHUB_TOKEN: ${{ secrets.ACTION_PERSONAL }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           PR_TITLE="Release ${{ env.NEXT_VERSION }}"
           PR_BODY="This PR releases version ${{ env.NEXT_VERSION }} to main"
