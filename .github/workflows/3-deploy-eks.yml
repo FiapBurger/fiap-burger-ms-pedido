@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -52,7 +52,7 @@ jobs:
 
       - name: Create namespace
         run: |
-          kubectl apply -f infra/namespace-checkout.yml
+          kubectl apply -f infra/namespace-pedido.yml
 
       - name: Substitute variables in deployment.yml
         run: |
@@ -62,13 +62,13 @@ jobs:
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY }}
           GITHUB_SHA: ${{ github.sha }}
 
-      - name: Deploy application checkout
+      - name: Deploy application pedido
         run: |
-          kubectl apply -f infra/deployment_substituted.yml -n checkout-namespace
+          kubectl apply -f infra/deployment_substituted.yml -n pedido-namespace
 
       - name: Create service
         run: |
-          kubectl apply -f infra/service.yml -n checkout-namespace
+          kubectl apply -f infra/service.yml -n pedido-namespace
 
       #- name: Wait for rollout to finish
         #run: |
