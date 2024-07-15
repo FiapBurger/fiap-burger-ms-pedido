@@ -135,6 +135,9 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
 					<argLine>--add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED</argLine>
+					<excludes>
+						<exclude>src/main/java/com/fiap/fiapburguer/pedido/PedidoApplication.java</exclude>
+					</excludes>
 				</configuration>
 			</plugin>
 			<!-- JaCoCo plugin -->
