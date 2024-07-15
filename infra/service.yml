@@ -11,6 +11,8 @@ metadata:
     service.beta.kubernetes.io/aws-load-balancer-healthcheck-timeout: "5"
     service.beta.kubernetes.io/aws-load-balancer-healthcheck-healthy-threshold: "2"
     service.beta.kubernetes.io/aws-load-balancer-healthcheck-unhealthy-threshold: "2"
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-target-group-arn: "arn:aws:elasticloadbalancing:us-east-1:643230847802:targetgroup/pedidos-fiap-burger-tg/3751c9f76255434e"
 spec:
   selector:
     app: pedido-ms
