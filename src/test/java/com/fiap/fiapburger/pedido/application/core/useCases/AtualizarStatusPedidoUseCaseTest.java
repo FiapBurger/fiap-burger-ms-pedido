@@ -1,6 +1,6 @@
 package com.fiap.fiapburger.pedido.application.core.useCases;
 
-import com.fiap.fiapburger.pedido.application.core.domain.Pedido;
+import com.fiap.fiapburger.pedido.application.core.domain.PedidoMessageDTO;
 import com.fiap.fiapburger.pedido.application.ports.out.AtualizarStatusPedidoOutputPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,7 +23,7 @@ class AtualizarStatusPedidoUseCaseTest {
 
     @Test
     void atualizarStatusPedido_DeveChamarOutputPort() {
-        Pedido pedido = new Pedido();
+        PedidoMessageDTO pedido = new PedidoMessageDTO();
         useCase.atualizarStatusPedido(pedido);
         Mockito.verify(outputPort).atualizarStatusPedido(pedido);
     }

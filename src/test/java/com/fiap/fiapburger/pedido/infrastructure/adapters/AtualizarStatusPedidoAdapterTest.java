@@ -1,6 +1,6 @@
 package com.fiap.fiapburger.pedido.infrastructure.adapters;
 
-import com.fiap.fiapburger.pedido.application.core.domain.Pedido;
+import com.fiap.fiapburger.pedido.application.core.domain.PedidoMessageDTO;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.entities.PedidoEntity;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.JpaPedidoRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +30,7 @@ class AtualizarStatusPedidoAdapterTest {
 
     @Test
     void atualizarStatusPedido_DeveLancarExcecaoQuandoPagamentoNaoRealizado() {
-        Pedido pedido = new Pedido();
+        PedidoMessageDTO pedido = new PedidoMessageDTO();
         pedido.setId("1");
         pedido.setIdStatus("6");
         pedido.setIdPagamento("0");
@@ -47,7 +47,7 @@ class AtualizarStatusPedidoAdapterTest {
 
     @Test
     void atualizarStatusPedido_DeveLancarExcecaoQuandoPedidoNaoExistir() {
-        Pedido pedido = new Pedido();
+        PedidoMessageDTO pedido = new PedidoMessageDTO();
         pedido.setId("1");
         pedido.setIdStatus("6");
         pedido.setIdPagamento("1");
