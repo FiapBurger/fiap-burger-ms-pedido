@@ -1,5 +1,6 @@
 package com.fiap.fiapburger.pedido.infrastructure.adapters;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fiap.fiapburger.pedido.application.core.domain.PedidoMessageDTO;
 import com.fiap.fiapburger.pedido.application.core.domain.enums.StatusPedido;
 import com.fiap.fiapburger.pedido.application.ports.out.AtualizarStatusPedidoOutputPort;
@@ -17,10 +18,20 @@ public class AtualizarStatusPedidoAdapter implements AtualizarStatusPedidoOutput
     @Autowired
     private JpaPedidoRepository jpaPedidoRepository;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
 
     @Override
     @RabbitListener(queues = RabbitMqConfig.QUEUE_NAME)
-    public void atualizarStatusPedido(PedidoMessageDTO pedido) {
+    public void atualizarStatusPedido(String pedidoJson) {
+        System.out.println(pedidoJson);
+        PedidoMessageDTO pedido;
+        try {
+            pedido = objectMapper.readValue(pedidoJson, PedidoMessageDTO.class);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao desserializar mensagem", e);
+        }
         jpaPedidoRepository.findById(pedido.getId())
                 .map(pedidoEntity -> {
                     if (Objects.equals(pedido.getIdStatus(), String.valueOf(StatusPedido.ENTREGUE_AO_CLIENTE.getId()))
@@ -30,6 +41,7 @@ public class AtualizarStatusPedidoAdapter implements AtualizarStatusPedidoOutput
                         pedidoEntity.setDataHoraFim(LocalDateTime.now());
                     }
                     pedidoEntity.setIdStatus(pedido.getIdStatus());
+                    pedidoEntity.setIdPagamento(pedido.getId_pagamento());
                     return pedidoEntity;
                 })
                 .map(jpaPedidoRepository::save)

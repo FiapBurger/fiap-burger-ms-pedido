@@ -1,7 +1,6 @@
 package com.fiap.fiapburger.pedido.application.core.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.io.Serial;
 import java.io.Serializable;
 
@@ -10,6 +9,7 @@ public class PedidoMessageDTO implements Serializable {
     private static final long serialVersionUID = 5779174493636164213L;
     @JsonProperty("id")
     private String id;
+
     @JsonProperty("status_pedido")
     private String status_pedido;
 
@@ -24,7 +24,10 @@ public class PedidoMessageDTO implements Serializable {
         this.id_pagamento = id_pagamento;
     }
 
-    public PedidoMessageDTO(String idPedido, String status) {
+    public PedidoMessageDTO(String id, String status_pedido, String id_pagamento) {
+        this.id = id;
+        this.status_pedido = status_pedido;
+        this.id_pagamento = id_pagamento;
     }
 
     public PedidoMessageDTO() {

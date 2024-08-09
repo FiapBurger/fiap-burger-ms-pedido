@@ -1,5 +1,6 @@
 package com.fiap.fiapburger.pedido.infrastructure.adapters;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fiap.fiapburger.pedido.application.core.domain.PedidoMessageDTO;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.entities.PedidoEntity;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.JpaPedidoRepository;
@@ -8,11 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class AtualizarStatusPedidoAdapterTest {
@@ -22,6 +20,9 @@ class AtualizarStatusPedidoAdapterTest {
 
     @InjectMocks
     private AtualizarStatusPedidoAdapter adapter;
+
+    @Mock
+    private ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp() {
@@ -42,7 +43,14 @@ class AtualizarStatusPedidoAdapterTest {
 
         when(jpaPedidoRepository.findById("1")).thenReturn(Optional.of(pedidoEntity));
 
-        assertThrows(RuntimeException.class, () -> adapter.atualizarStatusPedido(pedido));
+        String jsonMessage;
+        try {
+            jsonMessage = objectMapper.writeValueAsString(pedido);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao serializar mensagem", e);
+        }
+
+        assertThrows(RuntimeException.class, () -> adapter.atualizarStatusPedido(jsonMessage));
     }
 
     @Test
@@ -54,6 +62,14 @@ class AtualizarStatusPedidoAdapterTest {
 
         when(jpaPedidoRepository.findById("1")).thenReturn(Optional.empty());
 
-        assertThrows(RuntimeException.class, () -> adapter.atualizarStatusPedido(pedido));
+        String jsonMessage;
+        try {
+            jsonMessage = objectMapper.writeValueAsString(pedido);
+            System.out.println("jsonMessage: " + jsonMessage);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao serializar mensagem", e);
+        }
+
+        assertThrows(RuntimeException.class, () -> adapter.atualizarStatusPedido(jsonMessage));
     }
 }
