@@ -1,7 +1,7 @@
 package com.fiap.fiapburger.pedido.application.ports.in;
 
-import com.fiap.fiapburger.pedido.application.core.domain.Pedido;
+import com.fiap.fiapburger.pedido.application.core.domain.PedidoMessageDTO;
 
 public interface AtualizarStatusPedidoInputPort {
-    void atualizarStatusPedido(Pedido pedido);
+    void atualizarStatusPedido(PedidoMessageDTO pedido);
 }

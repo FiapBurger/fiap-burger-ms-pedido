@@ -1,9 +1,12 @@
 package com.fiap.fiapburger.pedido.infrastructure.adapters;
 
-import com.fiap.fiapburger.pedido.application.core.domain.Pedido;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fiap.fiapburger.pedido.application.core.domain.PedidoMessageDTO;
 import com.fiap.fiapburger.pedido.application.core.domain.enums.StatusPedido;
 import com.fiap.fiapburger.pedido.application.ports.out.AtualizarStatusPedidoOutputPort;
+import com.fiap.fiapburger.pedido.infrastructure.config.RabbitMqConfig;
 import com.fiap.fiapburger.pedido.infrastructure.persistence.repositories.JpaPedidoRepository;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
@@ -15,8 +18,20 @@ public class AtualizarStatusPedidoAdapter implements AtualizarStatusPedidoOutput
     @Autowired
     private JpaPedidoRepository jpaPedidoRepository;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
+
     @Override
-    public void atualizarStatusPedido(Pedido pedido) {
+    @RabbitListener(queues = RabbitMqConfig.QUEUE_NAME)
+    public void atualizarStatusPedido(String pedidoJson) {
+        System.out.println(pedidoJson);
+        PedidoMessageDTO pedido;
+        try {
+            pedido = objectMapper.readValue(pedidoJson, PedidoMessageDTO.class);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao desserializar mensagem", e);
+        }
         jpaPedidoRepository.findById(pedido.getId())
                 .map(pedidoEntity -> {
                     if (Objects.equals(pedido.getIdStatus(), String.valueOf(StatusPedido.ENTREGUE_AO_CLIENTE.getId()))
@@ -26,6 +41,7 @@ public class AtualizarStatusPedidoAdapter implements AtualizarStatusPedidoOutput
                         pedidoEntity.setDataHoraFim(LocalDateTime.now());
                     }
                     pedidoEntity.setIdStatus(pedido.getIdStatus());
+                    pedidoEntity.setIdPagamento(pedido.getId_pagamento());
                     return pedidoEntity;
                 })
                 .map(jpaPedidoRepository::save)

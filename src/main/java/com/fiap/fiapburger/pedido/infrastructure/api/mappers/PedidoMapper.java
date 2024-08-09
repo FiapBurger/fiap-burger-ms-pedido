@@ -1,6 +1,7 @@
 package com.fiap.fiapburger.pedido.infrastructure.api.mappers;
 
 import com.fiap.fiapburger.pedido.application.core.domain.Pedido;
+import com.fiap.fiapburger.pedido.application.core.domain.PedidoMessageDTO;
 import com.fiap.fiapburger.pedido.application.core.domain.enums.StatusPedido;
 import com.fiap.fiapburger.pedido.infrastructure.api.requests.*;
 import com.fiap.fiapburger.pedido.infrastructure.api.responses.ItensPedidoResponse;
@@ -64,8 +65,8 @@ public interface PedidoMapper {
     }
 
 
-    static Pedido atualizarStatusPedido(AtualizarStatusPedidoRequest atualizarStatusPedidoRequest) {
-        Pedido pedido = new Pedido();
+    static PedidoMessageDTO atualizarStatusPedido(AtualizarStatusPedidoRequest atualizarStatusPedidoRequest) {
+        PedidoMessageDTO pedido = new PedidoMessageDTO();
         pedido.setIdStatus(atualizarStatusPedidoRequest.getIdStatus());
         pedido.setId(atualizarStatusPedidoRequest.getIdPedido());
         return pedido;
